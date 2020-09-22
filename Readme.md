@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Alexandra Crudu](https://up.htmlacademy.ru/javascript/21/user/1342439).
-* Наставник: [Саша Джинн] .
+* Наставник: [Саша Джинн](https://htmlacademy.ru/profile/jinonensk) .
 
 ---
 
