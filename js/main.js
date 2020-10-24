@@ -1,3 +1,5 @@
+'use strict'
+
 const FEATURES = ['wifi', "dishwasher", "parking", "washer", "elevator", "conditioner"];
 const DESCRIPTION = ['симбиоз природы и современного дизайна', 'стоит посреди просторного садово-паркового ансамбля', 'К услугам гостей отель предлагает уютные комфортабельные двухместные номера и номера повышенной комфортности', 'Отель сочетает в себе уют домашнего очага и комфорт современной обстановки', 'Основная часть номерного фонда была полностью реновирована'];
 const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -26,7 +28,7 @@ MAP.classList.remove('map--faded');
 function getRandomAvatar(index) {
   index += 1;
   return `img/avatars/user0${index}.png`;
-};
+}
 
 function getRandomFeatures(text) {
   const featuresResult = [];
@@ -44,16 +46,16 @@ function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+}
 
 function getRandomTime() {
   let time = getRandomInt(TIME_MIN, TIME_MAX) + ':00';
   return time;
-};
+}
 
 function getRandomArrayItem(array) {
   return array[getRandomInt(0, array.length - 1)];
-};
+}
 
 function generateOffer(index) {
   return {
@@ -62,7 +64,7 @@ function generateOffer(index) {
     },
     "offer": {
       "title": `Title ${index}`,
-      "address":  {
+      "address": {
         location: {
           x: getRandomInt(LOCATION_MIN, LOCATION_MAX),
           y: getRandomInt(LOCATION_MIN, LOCATION_MAX)
@@ -77,26 +79,26 @@ function generateOffer(index) {
       "features": getRandomFeatures(FEATURES),
       "description": getRandomArrayItem(DESCRIPTION),
       "photos": getRandomFeatures(PHOTOS),
-      },
+    },
     "location": {
       "x": getRandomInt(0, MAP_WIDTH),
       "y": getRandomInt(0, MAP_HEIGHT),
     }
-  }
-};
+  };
+}
 
 function generateArray() {
   const array = [];
 
   for (let i = 0; i < 8; i++) {
-    array.push(generateOffer(i))
-  };
+    array.push(generateOffer(i));
+  }
   return array;
-};
+}
 
 const fragment = document.createDocumentFragment();
 const offers = generateArray();
-offers.forEach(offer => {
+(offers.forEach(offer => {
   let mapElement = SIMILAR_PIN_TEMPLATE.cloneNode(true);
 
   mapElement.style.left = offer.location.x - MAP_PIN_WIDTH / 2 + 'px';
@@ -104,7 +106,7 @@ offers.forEach(offer => {
   mapElement.querySelector('img').src = offer.author.avatar;
   mapElement.querySelector('img').alt = offer.offer.title;
   fragment.appendChild(mapElement);
-});
+}));
 
 MAP.appendChild(fragment);
 
