@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const FEATURES = ['wifi', "dishwasher", "parking", "washer", "elevator", "conditioner"];
 const DESCRIPTION = ['симбиоз природы и современного дизайна', 'стоит посреди просторного садово-паркового ансамбля', 'К услугам гостей отель предлагает уютные комфортабельные двухместные номера и номера повышенной комфортности', 'Отель сочетает в себе уют домашнего очага и комфорт современной обстановки', 'Основная часть номерного фонда была полностью реновирована'];
@@ -98,7 +98,7 @@ function generateArray() {
 
 const fragment = document.createDocumentFragment();
 const offers = generateArray();
-(offers.forEach(offer => {
+offers.forEach((offer) => {
   let mapElement = SIMILAR_PIN_TEMPLATE.cloneNode(true);
 
   mapElement.style.left = offer.location.x - MAP_PIN_WIDTH / 2 + 'px';
@@ -106,7 +106,7 @@ const offers = generateArray();
   mapElement.querySelector('img').src = offer.author.avatar;
   mapElement.querySelector('img').alt = offer.offer.title;
   fragment.appendChild(mapElement);
-}));
+});
 
 MAP.appendChild(fragment);
 
