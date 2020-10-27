@@ -14,12 +14,15 @@ const GUESTS_MIN = 1;
 const GUESTS_MAX = 8;
 const TIME_MIN = 12;
 const TIME_MAX = 14;
-const MAP_HEIGHT = 750;
 const MAP_WIDTH = 1200;
 const MAP = document.querySelector('.map');
 const SIMILAR_PIN_TEMPLATE = document.querySelector('#pin').content.querySelector('.map__pin');
 const MAP_PIN_WIDTH = '50';
 const MAP_PIN_HEIGHT = 70;
+const MAX_COORDINATE_X = MAP_WIDTH - MAP_PIN_WIDTH;
+const MIN_COORDINATE_X = 0 + MAP_PIN_WIDTH;
+const MAX_COORDINATE_Y = 630;
+const MIN_COORDINATE_Y = 130;
 
 
 MAP.classList.remove('map--faded');
@@ -32,8 +35,8 @@ function getRandomAvatar(index) {
 
 function getRandomFeatures(text) {
   const featuresResult = [];
-  for (let i = 0; i < getRandomInt(0, text.length); i++) {
-    let featuresIndex = getRandomInt(0, text.length);
+  for (let i = 0; i < getRandomInteger(0, text.length); i++) {
+    let featuresIndex = getRandomInteger(0, text.length);
     featuresResult.push(text[featuresIndex - 1]);
     text.splice(featuresIndex, 1);
   }
@@ -42,19 +45,19 @@ function getRandomFeatures(text) {
 }
 
 
-function getRandomInt(min, max) {
+function getRandomInteger(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function getRandomTime() {
-  let time = getRandomInt(TIME_MIN, TIME_MAX) + ':00';
+  let time = getRandomInteger(TIME_MIN, TIME_MAX) + ':00';
   return time;
 }
 
 function getRandomArrayItem(array) {
-  return array[getRandomInt(0, array.length - 1)];
+  return array[getRandomInteger(0, array.length - 1)];
 }
 
 function generateOffer(index) {
@@ -66,14 +69,14 @@ function generateOffer(index) {
       "title": `Title ${index}`,
       "address": {
         location: {
-          x: getRandomInt(LOCATION_MIN, LOCATION_MAX),
-          y: getRandomInt(LOCATION_MIN, LOCATION_MAX)
+          x: getRandomInteger(LOCATION_MIN, LOCATION_MAX),
+          y: getRandomInteger(LOCATION_MIN, LOCATION_MAX)
         }
       },
-      "price": getRandomInt(PRICE_MIN, PRICE_MAX),
+      "price": getRandomInteger(PRICE_MIN, PRICE_MAX),
       "type": getRandomArrayItem(ROOM_TYPE),
-      "rooms": getRandomInt(ROOMS_MIN, ROOMS_MAX),
-      "guests": getRandomInt(GUESTS_MIN, GUESTS_MAX),
+      "rooms": getRandomInteger(ROOMS_MIN, ROOMS_MAX),
+      "guests": getRandomInteger(GUESTS_MIN, GUESTS_MAX),
       "checkin": getRandomTime(),
       "checkout": getRandomTime(),
       "features": getRandomFeatures(FEATURES),
@@ -81,13 +84,14 @@ function generateOffer(index) {
       "photos": getRandomFeatures(PHOTOS),
     },
     "location": {
-      "x": getRandomInt(0, MAP_WIDTH),
-      "y": getRandomInt(0, MAP_HEIGHT),
+      "x": getRandomInteger(MIN_COORDINATE_X, MAX_COORDINATE_X),
+      "y": getRandomInteger(MIN_COORDINATE_Y, MAX_COORDINATE_Y
+      ),
     }
   };
 }
 
-function generateArray() {
+function getOffers() {
   const array = [];
 
   for (let i = 0; i < 8; i++) {
@@ -97,7 +101,7 @@ function generateArray() {
 }
 
 const fragment = document.createDocumentFragment();
-const offers = generateArray();
+const offers = getOffers();
 offers.forEach((offer) => {
   let mapElement = SIMILAR_PIN_TEMPLATE.cloneNode(true);
 
