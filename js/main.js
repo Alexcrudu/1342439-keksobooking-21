@@ -122,7 +122,7 @@ const addPins = function () {
     mapElement.style.top = offer.location.y - MAP_PIN_HEIGHT / 2 + 'px';
     mapElement.querySelector('img').src = offer.author.avatar;
     mapElement.querySelector('img').alt = offer.offer.title;
-});
+  });
 
   MAP.appendChild(fragment);
 };
