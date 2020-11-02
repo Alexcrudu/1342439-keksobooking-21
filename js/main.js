@@ -25,6 +25,8 @@ const MAX_COORDINATE_Y = 630;
 const MIN_COORDINATE_Y = 130;
 const SIMILAR_CARD_TEMPLATE = document.querySelector('#card').content.querySelector('.map__card');
 const MAP_FILTERS = document.querySelector('.map__filters-container');
+const PHOTO_WIDTH = 45;
+const PHOTO_HEIGHT = 40;
 
 
 MAP.classList.remove('map--faded');
@@ -38,7 +40,7 @@ function getRandomAvatar(index) {
 function getRandomFeatures(text) {
   const featuresResult = [];
   for (let i = 0; i < getRandomInteger(0, text.length); i++) {
-    let featuresIndex = getRandomInteger(0, text.length);
+    let featuresIndex = getRandomInteger(1, text.length);
     featuresResult.push(text[featuresIndex - 1]);
     text.splice(featuresIndex, 1);
   }
@@ -120,8 +122,7 @@ const addPins = function () {
     mapElement.style.top = offer.location.y - MAP_PIN_HEIGHT / 2 + 'px';
     mapElement.querySelector('img').src = offer.author.avatar;
     mapElement.querySelector('img').alt = offer.offer.title;
-    fragment.appendChild(mapElement);
-  });
+});
 
   MAP.appendChild(fragment);
 };
@@ -132,11 +133,11 @@ const addCards = function () {
     let cardElement = SIMILAR_CARD_TEMPLATE.cloneNode(true);
 
     cardElement.querySelector('.popup__title').innerHTML = offer.offer.title;
-    cardElement.querySelector('.popup__text--address').innerHTML = offer.offer.address;
-    cardElement.querySelector('.popup__text--price').innerHTML = offer.offer.price + '₽/ночь';
+    cardElement.querySelector('.popup__text--address').innerHTML = offer.offer.address.location.x + ' ' + offer.offer.address.location.x;
+    cardElement.querySelector('.popup__text--price').innerHTML = offer.offer.price + ' ₽/ночь';
     cardElement.querySelector('.popup__type').innerHTML = offer.offer.type;
-    cardElement.querySelector('.popup__text--capacity').innerHTML = offer.offer.rooms + ' комнаты для' + offer.offer.guests + ' гостей';
-    cardElement.querySelector('.popup__text--time').innerHTML = 'Заезд после' + offer.offer.checkin + ', выезд до' + offer.offer.checkout;
+    cardElement.querySelector('.popup__text--capacity').innerHTML = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
+    cardElement.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
     cardElement.querySelector('.popup__features').innerHTML = offer.offer.features;
     cardElement.querySelector('.popup__description').innerHTML = offer.offer.description;
     cardElement.querySelector('.popup__avatar').src = offer.author.avatar;
@@ -149,6 +150,8 @@ const addCards = function () {
       let img = document.createElement("img");
       img.classList.add('popup__photo');
       img.src = photo;
+      img.style.width = PHOTO_WIDTH + 'px';
+      img.style.height = PHOTO_HEIGHT + 'px';
       photosContainer.appendChild(img);
     });
   });
