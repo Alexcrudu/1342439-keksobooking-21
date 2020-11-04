@@ -23,10 +23,10 @@ const MAX_COORDINATE_X = MAP_WIDTH - MAP_PIN_WIDTH;
 const MIN_COORDINATE_X = 0 + MAP_PIN_WIDTH;
 const MAX_COORDINATE_Y = 630;
 const MIN_COORDINATE_Y = 130;
-// const similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-// const mapFilters = document.querySelector('.map__filters-container');
-// const PHOTO_WIDTH = 45;
-// const PHOTO_HEIGHT = 40;
+const similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+const mapFilters = document.querySelector('.map__filters-container');
+const PHOTO_WIDTH = 45;
+const PHOTO_HEIGHT = 40;
 const headerForm = document.querySelector('.ad-form-header');
 const elementForm = document.querySelector('.ad-form__element');
 const form = document.querySelector('.ad-form');
@@ -145,38 +145,38 @@ const addPins = function () {
 //   });
 // };
 
-// const createCard = function (offer) {
-//   const fragment = document.createDocumentFragment();
-//   const cardElement = SimilarCardTemplate.cloneNode(true);
+const createCard = function (offer) {
+  const fragment = document.createDocumentFragment();
+  const cardElement = similarCardTemplate.cloneNode(true);
 
-//   cardElement.querySelector('.popup__title').innerHTML = offer.offer.title;
-//   cardElement.querySelector('.popup__text--address').innerHTML = offer.offer.address.location.x + ' ' + offer.offer.address.location.x;
-//   cardElement.querySelector('.popup__text--price').innerHTML = offer.offer.price + ' ₽/ночь';
-//   cardElement.querySelector('.popup__type').innerHTML = offer.offer.type;
-//   cardElement.querySelector('.popup__text--capacity').innerHTML = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
-//   cardElement.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
-//   cardElement.querySelector('.popup__features').innerHTML = offer.offer.features;
-//   cardElement.querySelector('.popup__description').innerHTML = offer.offer.description;
-//   cardElement.querySelector('.popup__avatar').src = offer.author.avatar;
-//   fragment.appendChild(cardElement);
+  cardElement.querySelector('.popup__title').innerHTML = offer.offer.title;
+  cardElement.querySelector('.popup__text--address').innerHTML = offer.offer.address.location.x + ' ' + offer.offer.address.location.x;
+  cardElement.querySelector('.popup__text--price').innerHTML = offer.offer.price + ' ₽/ночь';
+  cardElement.querySelector('.popup__type').innerHTML = offer.offer.type;
+  cardElement.querySelector('.popup__text--capacity').innerHTML = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').innerHTML = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
+  cardElement.querySelector('.popup__features').innerHTML = offer.offer.features;
+  cardElement.querySelector('.popup__description').innerHTML = offer.offer.description;
+  cardElement.querySelector('.popup__avatar').src = offer.author.avatar;
+  fragment.appendChild(cardElement);
 
 
-//   const photosContainer = cardElement.querySelector('.popup__photos');
-//   photosContainer.innerHTML = '';
-//   offer.offer.photos.forEach((photo) => {
-//     let img = document.createElement("img");
-//     img.classList.add('popup__photo');
-//     img.src = photo;
-//     img.style.width = PHOTO_WIDTH + 'px';
-//     img.style.height = PHOTO_HEIGHT + 'px';
-//     photosContainer.appendChild(img);
-//   });
+  const photosContainer = cardElement.querySelector('.popup__photos');
+  photosContainer.innerHTML = '';
+  offer.offer.photos.forEach((photo) => {
+    let img = document.createElement("img");
+    img.classList.add('popup__photo');
+    img.src = photo;
+    img.style.width = PHOTO_WIDTH + 'px';
+    img.style.height = PHOTO_HEIGHT + 'px';
+    photosContainer.appendChild(img);
+  });
 
-//   map.insertBefore(fragment, mapFilters);
-// };
+  map.insertBefore(fragment, mapFilters);
+};
 
 addPins();
-// createCard(offers[1]);
+createCard(offers[1]);
 
 headerForm.classList.add('disable');
 elementForm.classList.add('disable');
