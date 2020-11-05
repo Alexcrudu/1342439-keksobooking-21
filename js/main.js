@@ -38,10 +38,14 @@ let mainPinLeft = 570;
 let mainPinTop = 375;
 const roomsNummber = form.querySelector('#room_number');
 const guestsNummber = form.querySelector('#capacity');
-const roomsGuests = {
-  MAX_ROOMS: 100,
-  NOT_GUESTS: 0
-};
+const titleInput = form.querySelector('#title');
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+const timeinInput = form.querySelector('#timein');
+const timeoutInput = form.querySelector('#timeout');
+const priceInput = form.querySelector('#price');
+const typaInput = form.querySelector('#type');
+const MAX_PRICE = 1000000;
 
 
 function getRandomAvatar(index) {
@@ -203,25 +207,94 @@ mapPinMain.addEventListener('keydown', function (evt) {
   }
 });
 
-const addGuestsToRooms = function (input) {
-  const roomsCount = Number(roomsNummber.value);
-  const guestsCount = Number(guestsNummber.value);
-  if (guestsCount > roomsCount) {
-    input.setCustomValidity('Количество гостей не должно превышать количество комнат');
-  } else if (roomsCount === roomsGuests.MAX_ROOMS && guestsCount !== roomsGuests.NOT_GUESTS) {
-    input.setCustomValidity('100 комнат не предназначены для гостей');
-  } else {
-    input.setCustomValidity(' ');
-  }
-
-  input.reportValidity();
+// finctie camere la oaspeti.
+const ROOMS_FOR_GUEST = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
 };
 
+const addGuestsToRooms = function (value) {
+  Array.from(guestsNummber.options).forEach((option) => {
+    option.disabled = !ROOMS_FOR_GUEST[value].includes(option.value);
+  });
 
-roomsNummber.addEventListener('change', function () {
-  addGuestsToRooms(roomsNummber);
+  guestsNummber.value = value > 3 ? 0 : value;
+};
+
+addGuestsToRooms(roomsNummber.value);
+
+roomsNummber.addEventListener('change', (evt) => {
+  addGuestsToRooms(evt.target.value);
+});
+// functie lungimea titlului
+
+titleInput.addEventListener('input', function () {
+  const valueLength = titleInput.value.length;
+
+  if (valueLength < MIN_TITLE_LENGTH) {
+    titleInput.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
+  } else if (valueLength > MAX_TITLE_LENGTH) {
+    titleInput.setCustomValidity('Удалите лишние ' + (valueLength - MAX_TITLE_LENGTH) + ' симв.');
+  } else {
+    titleInput.setCustomValidity(' ');
+  }
+
+  titleInput.reportValidity();
 });
 
-guestsNummber.addEventListener('change', function () {
-  addGuestsToRooms(guestsNummber);
+
+timeinInput.addEventListener('change', function () {
+  if (timeinInput.value !== timeoutInput.value) {
+    timeoutInput.value = timeinInput.value;
+  }
+});
+
+timeoutInput.addEventListener('change', function () {
+  if (timeoutInput.value !== timeinInput.value) {
+    timeinInput.value = timeoutInput.value;
+  }
+});
+
+// typaInput.addEventListener('change', function () {
+//   if (typaInput.value === 'bungalow') {
+//     priceInput.min = '0';
+//   } else if (typaInput.value === 'flat') {
+//     priceInput.min = '1000';
+//   } else if (typaInput.value === 'house') {
+//     priceInput.min = '5000';
+//   } else if (typaInput.value === 'palace') {
+//     priceInput.min = '10000';
+//   }
+// });
+
+const validateMaxPrice = function () {
+  if (priceInput > MAX_PRICE) {
+    priceInput.setCustomValidity('Слишком большая стоимость');
+  } else {
+    priceInput.setCustomValidity(' ');
+  }
+
+  priceInput.reportValidity();
+};
+
+priceInput.addEventListener('input', function () {
+  validateMaxPrice();
+});
+
+const TYPE_PRICE = {
+  bungalow: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+};
+
+const validatePrice = function () {
+  priceInput.placeholder = TYPE_PRICE[typaInput.value];
+  priceInput.setAttribute('min', typaInput[typaInput.value]);
+};
+
+typaInput.addEventListener('input', function () {
+  validatePrice();
 });
