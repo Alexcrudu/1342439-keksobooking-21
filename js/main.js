@@ -31,6 +31,9 @@ const headerForm = document.querySelector('.ad-form-header');
 const elementForm = document.querySelector('.ad-form__element');
 const form = document.querySelector('.ad-form');
 const mapPinMain = document.querySelector('.map__pin--main');
+// const similarPin = document.querySelector('.map__pin');
+// const cordClose = document.querySelector('popup__close');
+// const mapCard = document.querySelector('.map__card');
 const inputAddress = document.querySelector('#address');
 const PIN_WIDTH_INACTIVE = 200;
 const PIN_HEIGHT_INACTIVE = 200;
@@ -128,16 +131,19 @@ function getOffers() {
 }
 
 const offers = getOffers();
+// debugger
 
 const addPins = function () {
   const fragment = document.createDocumentFragment();
-  offers.forEach((offer) => {
+  offers.forEach((offer, index) => {
     let mapElement = similarPinTemplate.cloneNode(true);
+    mapElement.dataset.index = index;
 
     mapElement.style.left = offer.location.x - MAP_PIN_WIDTH / 2 + 'px';
     mapElement.style.top = offer.location.y - MAP_PIN_HEIGHT / 2 + 'px';
     mapElement.querySelector('img').src = offer.author.avatar;
     mapElement.querySelector('img').alt = offer.offer.title;
+    fragment.appendChild(mapElement);
   });
 
   map.appendChild(fragment);
@@ -179,8 +185,14 @@ const createCard = function (offer) {
   map.insertBefore(fragment, mapFilters);
 };
 
-addPins();
-createCard(offers[1]);
+// addPins();
+
+// const createDiferentCard = function () {
+//   for (let i = 0; i < offers.length; i++) {
+//     createCard(offers[i]);
+//   }
+// };
+// createCard(offers[1]);
 
 headerForm.classList.add('disable');
 elementForm.classList.add('disable');
@@ -192,6 +204,7 @@ const activeMap = function () {
   elementForm.classList.remove('disable');
   form.classList.remove('ad-form--disabled');
   inputAddress.value = (mainPinLeft - MAP_PIN_WIDTH / 2) + ', ' + (mainPinTop + MAP_PIN_HEIGHT);
+  addPins();
 };
 
 
@@ -206,6 +219,39 @@ mapPinMain.addEventListener('keydown', function (evt) {
     activeMap();
   }
 });
+
+map.addEventListener('click', function (evt) {
+  if (evt.target.classList.contains('map__pin--main') || evt.target.closest('.map__pin--main')) {
+    return;
+  } else if (evt.target.classList.contains('map__pin') || evt.target.closest('.map__pin')) {
+    const index = evt.target.classList.contains('map__pin') ? evt.target.dataset.index : evt.target.closest('.map__pin').dataset.index;
+
+    createCard(offers[index]);
+  }
+});
+
+map.addEventListener('keydown', function (evt) {
+  if (evt.target.classList.contains('map__pin--main') || evt.target.closest('.map__pin--main')) {
+    return;
+  } else if (evt.key === 'Enter' || evt.target.classList.contains('map__pin') || evt.target.closest('.map__pin')) {
+    const index = evt.target.classList.contains('map__pin') ? evt.target.dataset.index : evt.target.closest('.map__pin').dataset.index;
+
+    createCard(offers[index]);
+  }
+});
+
+map.addEventListener('click', function (evt) {
+  if (evt.target.classList.contains('popup__close')) {
+    evt.target.closest('.map__card').classList.add('hidden');
+  }
+});
+
+map.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Esc' && evt.target.classList.contains('popup__close') || evt.target.closest('.popup__close')) {
+    evt.target.closest('.map__card').classList.add('hidden');
+  }
+});
+
 
 // finctie camere la oaspeti.
 const ROOMS_FOR_GUEST = {
@@ -298,3 +344,4 @@ const validatePrice = function () {
 typaInput.addEventListener('input', function () {
   validatePrice();
 });
+
