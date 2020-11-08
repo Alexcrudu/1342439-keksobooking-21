@@ -31,9 +31,6 @@ const headerForm = document.querySelector('.ad-form-header');
 const elementForm = document.querySelector('.ad-form__element');
 const form = document.querySelector('.ad-form');
 const mapPinMain = document.querySelector('.map__pin--main');
-// const similarPin = document.querySelector('.map__pin');
-// const cordClose = document.querySelector('popup__close');
-// const mapCard = document.querySelector('.map__card');
 const inputAddress = document.querySelector('#address');
 const PIN_WIDTH_INACTIVE = 200;
 const PIN_HEIGHT_INACTIVE = 200;
@@ -131,7 +128,6 @@ function getOffers() {
 }
 
 const offers = getOffers();
-// debugger
 
 const addPins = function () {
   const fragment = document.createDocumentFragment();
@@ -186,13 +182,6 @@ const createCard = function (offer) {
 };
 
 // addPins();
-
-// const createDiferentCard = function () {
-//   for (let i = 0; i < offers.length; i++) {
-//     createCard(offers[i]);
-//   }
-// };
-// createCard(offers[1]);
 
 headerForm.classList.add('disable');
 elementForm.classList.add('disable');
@@ -253,7 +242,6 @@ map.addEventListener('keydown', function (evt) {
 });
 
 
-// finctie camere la oaspeti.
 const ROOMS_FOR_GUEST = {
   '1': ['1'],
   '2': ['1', '2'],
@@ -274,7 +262,6 @@ addGuestsToRooms(roomsNummber.value);
 roomsNummber.addEventListener('change', (evt) => {
   addGuestsToRooms(evt.target.value);
 });
-// functie lungimea titlului
 
 titleInput.addEventListener('input', function () {
   const valueLength = titleInput.value.length;
@@ -302,18 +289,6 @@ timeoutInput.addEventListener('change', function () {
     timeinInput.value = timeoutInput.value;
   }
 });
-
-// typaInput.addEventListener('change', function () {
-//   if (typaInput.value === 'bungalow') {
-//     priceInput.min = '0';
-//   } else if (typaInput.value === 'flat') {
-//     priceInput.min = '1000';
-//   } else if (typaInput.value === 'house') {
-//     priceInput.min = '5000';
-//   } else if (typaInput.value === 'palace') {
-//     priceInput.min = '10000';
-//   }
-// });
 
 const validateMaxPrice = function () {
   if (priceInput > MAX_PRICE) {
