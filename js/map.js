@@ -4,7 +4,7 @@
   const form = document.querySelector('.ad-form');
   // const MAP_PIN_WIDTH = 62;
   // const MAP_PIN_HEIGHT = 62;
-  const mapPinMain = document.querySelector('.map__pin--main')
+  const mapPinMain = document.querySelector('.map__pin--main');
   const inputAddress = document.querySelector('#address');
   const headerForm = document.querySelector('.ad-form-header');
   const elementForm = document.querySelector('.ad-form__element');
