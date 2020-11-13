@@ -14,6 +14,7 @@
   const ROOM_TYPE = ['palace', 'flat', 'house', 'bungalow'];
   const DESCRIPTION = ['симбиоз природы и современного дизайна', 'стоит посреди просторного садово-паркового ансамбля', 'К услугам гостей отель предлагает уютные комфортабельные двухместные номера и номера повышенной комфортности', 'Отель сочетает в себе уют домашнего очага и комфорт современной обстановки', 'Основная часть номерного фонда была полностью реновирована'];
   const MAP_PIN_WIDTH = 62;
+  const MAP_PIN_HEIGHT = 62;
   const MAP_WIDTH = 1200;
   const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   const MAX_COORDINATE_X = MAP_WIDTH - MAP_PIN_WIDTH;
@@ -75,6 +76,11 @@
   }
 
   window.data = {
-    offers: getOffers(),
+    MAP_PIN_WIDTH,
+    MAP_PIN_HEIGHT,
+    MAP_WIDTH,
+    MAX_COORDINATE_Y,
+    MIN_COORDINATE_Y,
+    offers: getOffers()
   };
 })();
