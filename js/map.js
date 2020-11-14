@@ -7,7 +7,7 @@
   const mapPinMain = document.querySelector('.map__pin--main');
   const inputAddress = document.querySelector('#address');
   const headerForm = document.querySelector('.ad-form-header');
-  const elementForm = document.querySelector('.ad-form__element');
+  const elementForm = document.querySelectorAll('.ad-form__element');
   const PIN_WIDTH_INACTIVE = 200;
   const PIN_HEIGHT_INACTIVE = 200;
   const PIN_POINT = 22;
@@ -15,14 +15,31 @@
   const MAIN_PIN_TOP = 375;
   const ENTER = 'Enter';
 
-  headerForm.classList.add('disable');
-  elementForm.classList.add('disable');
-  inputAddress.value = (MAIN_PIN_LEFT + PIN_WIDTH_INACTIVE / 2) + ', ' + (MAIN_PIN_TOP + PIN_HEIGHT_INACTIVE / 2);
+  const disable = function () {
+    if (!window.pin.map.classList.contains('map--faded')) {
+      window.pin.map.classList.add('map--faded');
+    }
+    form.classList.add('ad-form--disabled');
+    const clearPin = () => {
+      const pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      pins.forEach((pin) => {
+        pin.remove();
+      });
+    };
+    clearPin();
+    elementForm.forEach((element) => {
+      element.setAttribute('disabled', 'disabled');
+    });
+    inputAddress.value = (MAIN_PIN_LEFT + PIN_WIDTH_INACTIVE / 2) + ', ' + (MAIN_PIN_TOP + PIN_HEIGHT_INACTIVE / 2);
+  };
+  disable();
 
   const activeMap = function () {
     window.pin.map.classList.remove('map--faded');
-    headerForm.classList.remove('disable');
-    elementForm.classList.remove('disable');
+    form.classList.remove('ad-form--disabled');
+    elementForm.forEach((element) => {
+      element.removeAttribute('disabled', 'disabled');
+    });
     window.map.form.classList.remove('ad-form--disabled');
     inputAddress.value = (MAIN_PIN_LEFT - window.data.MAP_PIN_WIDTH / 2) + ', ' + (MAIN_PIN_TOP + window.data.MAP_PIN_HEIGHT + PIN_POINT);
     window.pin.addPins();
@@ -101,7 +118,11 @@
   window.map = {
     form,
     mapPinMain,
-    ENTER
+    ENTER,
+    inputAddress,
+    headerForm,
+    elementForm,
+    disable
   };
 
 })();

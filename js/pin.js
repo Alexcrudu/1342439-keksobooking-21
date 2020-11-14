@@ -22,9 +22,9 @@
   };
 
   const disablePin = function () {
-    const activePinElement = similarPinTemplate.querySelector(`.map__pin--active`);
+    const activePinElement = similarPinTemplate.querySelector('.map__pin--active');
     if (activePinElement) {
-      activePinElement.classList.remove(`map__pin--active`);
+      activePinElement.classList.remove('map__pin--active');
     }
   };
 
