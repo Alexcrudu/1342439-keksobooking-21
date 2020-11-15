@@ -13,7 +13,7 @@
     const cardElement = similarCardTemplate.cloneNode(true);
 
     cardElement.querySelector('.popup__title').innerHTML = offer.offer.title;
-    cardElement.querySelector('.popup__text--address').innerHTML = offer.offer.address.location.x + ' ' + offer.offer.address.location.x;
+    cardElement.querySelector('.popup__text--address').innerHTML = offer.location.x + ' ' + offer.location.y;
     cardElement.querySelector('.popup__text--price').innerHTML = offer.offer.price + ' ₽/ночь';
     cardElement.querySelector('.popup__type').innerHTML = offer.offer.type;
     cardElement.querySelector('.popup__text--capacity').innerHTML = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
@@ -52,7 +52,6 @@
       return;
     } else if (evt.target.classList.contains('map__pin') || evt.target.closest('.map__pin')) {
       const index = evt.target.classList.contains('map__pin') ? evt.target.dataset.index : evt.target.closest('.map__pin').dataset.index;
-
       removeCard();
       window.card.createCard(window.data.offers[index]);
     }
@@ -84,6 +83,8 @@
     }
   });
 
+
+  window.load.load(window.data.onSuccess);
 
   window.card = {
     createCard

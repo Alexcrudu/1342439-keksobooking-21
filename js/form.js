@@ -4,6 +4,7 @@
   const roomsNummber = document.querySelector('#room_number');
   const guestsNummber = document.querySelector('#capacity');
   const titleInput = document.querySelector('#title');
+  const resetButton = window.map.form.querySelector('.ad-form__reset');
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
   const timeinInput = document.querySelector('#timein');
@@ -84,7 +85,7 @@
   };
   const validateMinPrice = function () {
     if (priceInput.value < TYPE_PRICE[typeInput.value]) {
-      priceInput.setCustomValidity('Минимальная стоимость' + ' ' + TYPE_PRICE[typeInput.value]);
+      priceInput.setCustomValidity('Минимальная стоимость' + '' + TYPE_PRICE[typeInput.value]);
     }
 
     priceInput.reportValidity();
@@ -98,5 +99,69 @@
   priceInput.addEventListener('input', function () {
     validatePrice();
     validateMinPrice();
+  });
+
+  const showSuccessMessage = () => {
+    window.map.disable();
+    const messageElement = document.querySelector('#success').cloneNode(true).content.querySelector('.success');
+    const closeMessage = () => {
+      messageElement.remove();
+      document.removeEventListener('keydown', onPupEsc);
+    };
+
+    const onPupEsc = (evt) => {
+      if (evt.key === 'Escape') {
+        closeMessage();
+      }
+    };
+
+    document.addEventListener('keydown', onPupEsc);
+    messageElement.addEventListener('click', () => {
+      closeMessage();
+    });
+
+    document.body.appendChild(messageElement);
+  };
+
+  const showErrorMessage = (errorMessage) => {
+    const errorElement = document.querySelector('#error').cloneNode(true).content.querySelector('.error');
+    const errorMessageElement = errorElement.querySelector('.error__message');
+    errorMessageElement.textContent = errorMessage;
+
+    const closeMessage = () => {
+      errorElement.remove();
+      document.removeEventListener('keydown', onPopupEsc);
+    };
+
+    errorElement.addEventListener('click', () => {
+      closeMessage();
+    });
+
+    const onPopupEsc = (evt) => {
+      if (evt.key === 'Escape') {
+        closeMessage();
+      }
+    };
+
+    document.addEventListener('keydown', onPopupEsc);
+    document.body.appendChild(errorElement);
+  };
+
+  const submitForm = function (evt) {
+    evt.preventDefault();
+    window.upload.upload(new FormData(window.map.form), showSuccessMessage, showErrorMessage);
+
+  };
+
+  window.map.form.addEventListener('submit', submitForm);
+
+  const resetForm = () => {
+    window.map.form.reset();
+    window.map.inputAddress.value = (window.map.mapPinMain.offsetLeft - window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.mapPinMain.offsetTop + window.data.MAP_PIN_HEIGHT);
+  };
+
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    resetForm();
   });
 })();
