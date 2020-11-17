@@ -4,6 +4,7 @@
 
   const TIME_MIN = 12;
   const TIME_MAX = 14;
+  const DEBOUNCE_INTERVAL = 500;
 
   const getRandomInteger = function (min, max) {
     min = Math.ceil(min);
@@ -29,11 +30,26 @@
     return featuresResult;
   };
 
+  const debounce = function (cb) {
+    let lastTimeout = null;
+
+    return function (...parameters) {
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb(...parameters);
+      }, DEBOUNCE_INTERVAL);
+    };
+  };
+
+
   window.util = {
     getRandomInteger,
     getRandomTime,
     getRandomArrayItem,
-    getRandomFeatures
+    getRandomFeatures,
+    debounce
   };
 
 })();

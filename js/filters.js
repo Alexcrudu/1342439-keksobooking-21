@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-
+  const TYPE_ANY = 'any';
   const filterForm = document.querySelector('.map__filters');
   const type = filterForm.querySelector('#housing-type');
   const price = filterForm.querySelector('#housing-price');
@@ -18,7 +18,6 @@
   const rooms = filterForm.querySelector('#housing-rooms');
   const guests = filterForm.querySelector('#housing-guests');
   const checkboxes = document.querySelectorAll('.map__checkbox');
-  const TYPE_ANY = 'any';
 
 
   const typeFilter = function (offers) {
@@ -110,25 +109,24 @@
 
 
   type.addEventListener('change', function () {
-    window.debounce.debounce(updatePins());
+    window.util.debounce(updatePins());
   });
 
   price.addEventListener('change', function () {
-    window.debounce.debounce(updatePins());
+    window.util.debounce(updatePins());
   });
 
   rooms.addEventListener('change', function () {
-    window.debounce.debounce(updatePins());
+    window.util.debounce(updatePins());
   });
 
   guests.addEventListener('change', function () {
-    window.debounce.debounce(updatePins());
+    window.util.debounce(updatePins());
   });
 
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener('input', function () {
-      window.debounce.debounce(updatePins());
+      window.util.debounce(updatePins());
     });
   });
-
 })();

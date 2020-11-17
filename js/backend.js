@@ -25,7 +25,7 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === status.OK) {
-        onSuccess(xhr.response);
+        window.pin.onSuccess(xhr.response);
       } else {
         onError('Статус запроса: ${xhr.status} ${xhr.statusText}');
       }
