@@ -31,11 +31,8 @@
 
   window.util = {
     getRandomInteger,
-
     getRandomTime,
-
     getRandomArrayItem,
-
     getRandomFeatures
   };
 

@@ -2,8 +2,6 @@
 
 (function () {
   const form = document.querySelector('.ad-form');
-  // const MAP_PIN_WIDTH = 62;
-  // const MAP_PIN_HEIGHT = 62;
   const mapPinMain = document.querySelector('.map__pin--main');
   const inputAddress = document.querySelector('#address');
   const headerForm = document.querySelector('.ad-form-header');
@@ -15,18 +13,20 @@
   const MAIN_PIN_TOP = 375;
   const ENTER = 'Enter';
 
+  const clearPins = () => {
+    const pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach((pin) => {
+      pin.remove();
+    });
+  };
+
   const disable = function () {
     if (!window.pin.map.classList.contains('map--faded')) {
       window.pin.map.classList.add('map--faded');
     }
     form.classList.add('ad-form--disabled');
-    const clearPin = () => {
-      const pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-      pins.forEach((pin) => {
-        pin.remove();
-      });
-    };
-    clearPin();
+
+    clearPins();
     elementForm.forEach((element) => {
       element.setAttribute('disabled', 'disabled');
     });
@@ -122,7 +122,8 @@
     inputAddress,
     headerForm,
     elementForm,
-    disable
+    disable,
+    clearPins
   };
 
 })();

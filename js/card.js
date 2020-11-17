@@ -78,16 +78,16 @@
 
   body.addEventListener('keydown', function (evt) {
     if (evt.key === ESC || evt.target.classList.contains('popup__close')) {
-    // evt.target.closest('.map__card').classList.add('hidden');
       removeCard();
     }
   });
 
 
-  window.load.load(window.data.onSuccess);
+  window.backend.load(window.data.onSuccess);
 
   window.card = {
-    createCard
+    createCard,
+    removeCard
   };
 
 })();

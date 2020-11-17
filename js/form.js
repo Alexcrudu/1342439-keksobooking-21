@@ -149,14 +149,14 @@
 
   const submitForm = function (evt) {
     evt.preventDefault();
-    window.upload.upload(new FormData(window.map.form), showSuccessMessage, showErrorMessage);
+    window.backend.upload(showSuccessMessage, showErrorMessage, new FormData(window.map.form));
 
   };
 
   window.map.form.addEventListener('submit', submitForm);
 
   const resetForm = () => {
-    window.map.form.reset();
+    window.map.disable();
     window.map.inputAddress.value = (window.map.mapPinMain.offsetLeft - window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.mapPinMain.offsetTop + window.data.MAP_PIN_HEIGHT);
   };
 
