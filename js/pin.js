@@ -2,13 +2,21 @@
 
 (function () {
   const similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-
   const map = document.querySelector('.map');
 
+  const onSuccess = function (data) {
+    window.data.rawOffers = data;
+    window.data.offers = data;
+  };
+
+
+  window.backend.load(onSuccess);
+
   const addPins = function () {
+    window.map.clearPins();
     const fragment = document.createDocumentFragment();
-    window.data.offers.forEach((offer, index) => {
-      let mapElement = similarPinTemplate.cloneNode(true);
+    window.data.offers.slice(0, 5).forEach((offer, index) => {
+      const mapElement = similarPinTemplate.cloneNode(true);
       mapElement.dataset.index = index;
 
       mapElement.style.left = offer.location.x - window.data.MAP_PIN_WIDTH / 2 + 'px';
@@ -32,6 +40,7 @@
   window.pin = {
     map,
     addPins,
-    disablePin
+    disable: disablePin,
+    onSuccess
   };
 })();

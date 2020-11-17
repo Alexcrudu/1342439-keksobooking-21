@@ -1,16 +1,8 @@
 'use strict';
 
 (function () {
-  const roomsNummber = document.querySelector('#room_number');
-  const guestsNummber = document.querySelector('#capacity');
-  const titleInput = document.querySelector('#title');
-  const resetButton = window.map.form.querySelector('.ad-form__reset');
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
-  const timeinInput = document.querySelector('#timein');
-  const timeoutInput = document.querySelector('#timeout');
-  const priceInput = document.querySelector('#price');
-  const typeInput = document.querySelector('#type');
   const MAX_PRICE = 1000000;
   const ROOMS_FOR_GUEST = {
     '1': ['1'],
@@ -18,6 +10,20 @@
     '3': ['1', '2', '3'],
     '100': ['0']
   };
+  const TYPE_PRICE = {
+    bungalow: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+  const roomsNummber = document.querySelector('#room_number');
+  const guestsNummber = document.querySelector('#capacity');
+  const titleInput = document.querySelector('#title');
+  const resetButton = window.map.form.querySelector('.ad-form__reset');
+  const timeinInput = document.querySelector('#timein');
+  const timeoutInput = document.querySelector('#timeout');
+  const priceInput = document.querySelector('#price');
+  const typeInput = document.querySelector('#type');
 
   const addGuestsToRooms = function (value) {
     Array.from(guestsNummber.options).forEach((option) => {
@@ -72,13 +78,6 @@
 
   priceInput.addEventListener('input', validateMaxPrice);
 
-  const TYPE_PRICE = {
-    bungalow: 0,
-    flat: 1000,
-    house: 5000,
-    palace: 10000
-  };
-
   const validatePrice = function () {
     priceInput.placeholder = TYPE_PRICE[typeInput.value];
     priceInput.setAttribute('min', typeInput[typeInput.value]);
@@ -110,7 +109,7 @@
     };
 
     const onPupEsc = (evt) => {
-      if (evt.key === 'Escape') {
+      if (evt.key === window.card.ESC) {
         closeMessage();
       }
     };
@@ -138,7 +137,7 @@
     });
 
     const onPopupEsc = (evt) => {
-      if (evt.key === 'Escape') {
+      if (evt.key === window.card.ESC) {
         closeMessage();
       }
     };
@@ -149,14 +148,14 @@
 
   const submitForm = function (evt) {
     evt.preventDefault();
-    window.upload.upload(new FormData(window.map.form), showSuccessMessage, showErrorMessage);
+    window.backend.upload(showSuccessMessage, showErrorMessage, new FormData(window.map.form));
 
   };
 
   window.map.form.addEventListener('submit', submitForm);
 
   const resetForm = () => {
-    window.map.form.reset();
+    window.map.disable();
     window.map.inputAddress.value = (window.map.mapPinMain.offsetLeft - window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.mapPinMain.offsetTop + window.data.MAP_PIN_HEIGHT);
   };
 
