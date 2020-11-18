@@ -21,18 +21,18 @@
 
 
   const typeFilter = function (offers) {
-    const filtered = [];
+    const filtereds = [];
     offers.forEach((offer) => {
       if (offer.offer.type === type.value || type.value === TYPE_ANY) {
-        filtered.push(offer);
+        filtereds.push(offer);
       }
     });
 
-    return filtered;
+    return filtereds;
   };
 
   const priceFilter = function (offers) {
-    const filtred = [];
+    const filtreds = [];
     offers.forEach((offer) => {
       switch (price.value) {
         case PriceValue.LOW:
@@ -42,35 +42,35 @@
         case PriceValue.HIGH:
           return offer.offer.price >= PriceRange.HIGH;
       }
-      filtred.push(offer);
+      filtreds.push(offer);
       return offer;
     });
-    return filtred;
+    return filtreds;
   };
 
   const roomsFilter = function (offers) {
-    const filtered = [];
+    const filtereds = [];
     offers.forEach((offer) => {
       if (offer.offer.rooms === Number(rooms.value) || rooms.value === TYPE_ANY) {
-        filtered.push(offer);
+        filtereds.push(offer);
       }
     });
-    return filtered;
+    return filtereds;
   };
 
   const guestsFilter = function (offers) {
-    const filtered = [];
+    const filtereds = [];
     offers.forEach((offer) => {
       if (offer.offer.guests === Number(guests.value) || guests.value === TYPE_ANY) {
-        filtered.push(offer);
+        filtereds.push(offer);
       }
     });
-    return filtered;
+    return filtereds;
   };
 
   const featuresFilter = function (offers) {
     const checked = document.querySelectorAll('input:checked');
-    const filtered = [];
+    const filtreds = [];
     const selectedFeatures = [];
 
     checked.forEach((element) => {
@@ -82,19 +82,19 @@
     }
 
     offers.forEach((offer) => {
-      const itemExists = filtered.find((filteredItem) => offer.offer.address === filteredItem.offer.address);
+      const itemExists = filtreds.find((filteredItem) => offer.offer.address === filteredItem.offer.address);
 
       const matches = selectedFeatures.every((featureItem) => {
         return offer.offer.features.includes(featureItem);
       });
 
       if (matches && !itemExists) {
-        filtered.push(offer);
+        filtreds.push(offer);
       }
 
     });
 
-    return filtered;
+    return filtreds;
   };
 
   const updatePins = function () {
@@ -109,24 +109,29 @@
 
 
   type.addEventListener('change', function () {
-    window.util.debounce(updatePins());
+    window.card.removeInfo();
+    window.util.debounce(updatePins)();
   });
 
   price.addEventListener('change', function () {
-    window.util.debounce(updatePins());
+    window.card.removeInfo();
+    window.util.debounce(updatePins)();
   });
 
   rooms.addEventListener('change', function () {
-    window.util.debounce(updatePins());
+    window.card.removeInfo();
+    window.util.debounce(updatePins)();
   });
 
   guests.addEventListener('change', function () {
-    window.util.debounce(updatePins());
+    window.card.removeInfo();
+    window.util.debounce(updatePins)();
   });
 
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener('input', function () {
-      window.util.debounce(updatePins());
+      window.card.removeInfo();
+      window.util.debounce(updatePins)();
     });
   });
 })();

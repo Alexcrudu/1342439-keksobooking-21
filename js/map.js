@@ -12,7 +12,10 @@
   const mapPinMain = document.querySelector('.map__pin--main');
   const inputAddress = document.querySelector('#address');
   const headerForm = document.querySelector('.ad-form-header');
-  const elementForm = document.querySelectorAll('.ad-form__element');
+  const elementForms = document.querySelectorAll('.ad-form__element');
+  const filters = document.querySelector('.map__filters');
+  const selects = filters.querySelectorAll('select');
+  const features = filters.querySelector('.map__features');
 
   const clearPins = () => {
     const pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -26,10 +29,16 @@
       window.pin.map.classList.add('map--faded');
     }
     form.classList.add('ad-form--disabled');
+    filters.classList.add('ad-form--disabled');
 
     clearPins();
-    elementForm.forEach((element) => {
+    headerForm.setAttribute('disabled', 'disabled');
+    features.setAttribute('disabled', 'disabled');
+    elementForms.forEach((element) => {
       element.setAttribute('disabled', 'disabled');
+    });
+    selects.forEach((select) => {
+      select.setAttribute('disabled', 'disabled');
     });
     inputAddress.value = (MAIN_PIN_LEFT + PIN_WIDTH_INACTIVE / 2) + ', ' + (MAIN_PIN_TOP + PIN_HEIGHT_INACTIVE / 2);
   };
@@ -38,7 +47,13 @@
   const activeMap = function () {
     window.pin.map.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
-    elementForm.forEach((element) => {
+    filters.classList.remove('ad-form--disabled');
+    headerForm.removeAttribute('disabled', 'disabled');
+    features.removeAttribute('disabled', 'disabled');
+    selects.forEach((select) => {
+      select.removeAttribute('disabled', 'disabled');
+    });
+    elementForms.forEach((element) => {
       element.removeAttribute('disabled', 'disabled');
     });
     window.map.form.classList.remove('ad-form--disabled');
@@ -65,7 +80,7 @@
       y: evt.clientY
     };
 
-    inputAddress.value = startCoords.x + ' ' + (startCoords.y + window.data.MAP_PIN_HEIGHT + PIN_POINT);
+    inputAddress.value = (startCoords.x + window.data.MAP_PIN_WIDTH / 2) + ', ' + (startCoords.y + window.data.MAP_PIN_HEIGHT + PIN_POINT);
 
     const onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
@@ -89,7 +104,7 @@
           window.map.PinMain.offsetLeft - shift.x > minCoordinateX &&
           window.map.PinMain.offsetLeft - shift.x <= maxCoordinateX
         ) {
-          window.map.PinMain.style.left = (window.map.mapPinMain.offsetLeft - shift.x) + 'px';
+          window.map.PinMain.style.left = (window.map.PinMain.offsetLeft - shift.x) + 'px';
         }
 
         if (
@@ -98,7 +113,7 @@
           window.map.PinMain.style.top = window.map.PinMain.offsetTop - shift.y + 'px';
         }
 
-        inputAddress.value = (window.map.PinMain.offsetLeft - shift.x) + ' ' + (window.map.PinMain.offsetTop - shift.y + window.data.MAP_PIN_HEIGHT + PIN_POINT);
+        inputAddress.value = (window.map.PinMain.offsetLeft + window.data.MAP_PIN_WIDTH / 2 - shift.x) + ', ' + (window.map.PinMain.offsetTop - shift.y + window.data.MAP_PIN_HEIGHT + PIN_POINT);
       };
       movePin();
     };
@@ -106,6 +121,7 @@
 
     const onMouseUp = function (upEvt) {
       upEvt.preventDefault();
+      inputAddress.value = (window.map.PinMain.offsetLeft + window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.PinMain.offsetTop + window.data.MAP_PIN_HEIGHT + PIN_POINT);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -122,7 +138,7 @@
     ENTER,
     inputAddress,
     headerForm,
-    elementForm,
+    elementForms,
     disable: disableMap,
     clearPins
   };

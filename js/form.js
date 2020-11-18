@@ -3,6 +3,8 @@
 (function () {
   const MIN_TITLE_LENGTH = 30;
   const MAX_TITLE_LENGTH = 100;
+  const MAX_GUESTS_NUMBER = 3;
+  const ZERO = 0;
   const MAX_PRICE = 1000000;
   const ROOMS_FOR_GUEST = {
     '1': ['1'],
@@ -30,7 +32,7 @@
       option.disabled = !ROOMS_FOR_GUEST[value].includes(option.value);
     });
 
-    guestsNummber.value = value > 3 ? 0 : value;
+    guestsNummber.value = value > MAX_GUESTS_NUMBER ? ZERO : value;
   };
 
   addGuestsToRooms(roomsNummber.value);
@@ -67,7 +69,7 @@
   });
 
   const validateMaxPrice = function () {
-    if (priceInput > MAX_PRICE) {
+    if (priceInput.value > MAX_PRICE) {
       priceInput.setCustomValidity('Слишком большая стоимость');
     } else {
       priceInput.setCustomValidity('');
@@ -79,7 +81,7 @@
   priceInput.addEventListener('input', validateMaxPrice);
 
   const validatePrice = function () {
-    priceInput.placeholder = TYPE_PRICE[typeInput.value];
+    priceInput.placeholder = typeInput[typeInput.value];
     priceInput.setAttribute('min', typeInput[typeInput.value]);
   };
   const validateMinPrice = function () {
@@ -101,12 +103,12 @@
   });
 
   const showSuccessMessage = () => {
-    window.map.disable();
     const messageElement = document.querySelector('#success').cloneNode(true).content.querySelector('.success');
     const closeMessage = () => {
       messageElement.remove();
       document.removeEventListener('keydown', onPupEsc);
     };
+    window.map.disable();
 
     const onPupEsc = (evt) => {
       if (evt.key === window.card.ESC) {
@@ -146,18 +148,22 @@
     document.body.appendChild(errorElement);
   };
 
+  const resetForm = () => {
+    window.map.disable();
+    window.card.removeInfo();
+    titleInput.value = ' ';
+    window.map.form.reset();
+    window.map.inputAddress.value = (window.map.PinMain.offsetLeft - window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.PinMain.offsetTop + window.data.MAP_PIN_HEIGHT);
+
+  };
+
   const submitForm = function (evt) {
     evt.preventDefault();
     window.backend.upload(showSuccessMessage, showErrorMessage, new FormData(window.map.form));
-
+    resetForm();
   };
 
   window.map.form.addEventListener('submit', submitForm);
-
-  const resetForm = () => {
-    window.map.disable();
-    window.map.inputAddress.value = (window.map.mapPinMain.offsetLeft - window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.mapPinMain.offsetTop + window.data.MAP_PIN_HEIGHT);
-  };
 
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
