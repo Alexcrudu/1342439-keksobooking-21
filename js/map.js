@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  const PIN_WIDTH_INACTIVE = 200;
-  const PIN_HEIGHT_INACTIVE = 200;
   const PIN_POINT = 22;
   const MAIN_PIN_LEFT = 570;
   const MAIN_PIN_TOP = 375;
@@ -40,7 +38,9 @@
     selects.forEach((select) => {
       select.setAttribute('disabled', 'disabled');
     });
-    inputAddress.value = (MAIN_PIN_LEFT + PIN_WIDTH_INACTIVE / 2) + ', ' + (MAIN_PIN_TOP + PIN_HEIGHT_INACTIVE / 2);
+    inputAddress.value = (MAIN_PIN_LEFT + window.data.MAP_PIN_WIDTH / 2) + ', ' + (MAIN_PIN_TOP + window.data.MAP_PIN_HEIGHT / 2);
+    mapPinMain.style.top = MAIN_PIN_TOP + 'px';
+    mapPinMain.style.left = MAIN_PIN_LEFT + 'px';
   };
   disableMap();
 
@@ -97,7 +97,7 @@
       const movePin = function () {
         const maxCoordinateX = window.data.MAP_WIDTH - window.data.MAP_PIN_WIDTH / 2;
         const minCoordinateX = 0 - window.data.MAP_PIN_WIDTH / 2;
-        const maxCoordinateY = window.data.MAX_COORDINATE_Y;
+        const maxCoordinateY = window.data.MAX_COORDINATE_Y - window.data.MAP_PIN_HEIGHT;
         const minCoordinateY = window.data.MIN_COORDINATE_Y - window.data.MAP_PIN_HEIGHT;
 
         if (
@@ -113,7 +113,7 @@
           window.map.PinMain.style.top = window.map.PinMain.offsetTop - shift.y + 'px';
         }
 
-        inputAddress.value = (window.map.PinMain.offsetLeft + window.data.MAP_PIN_WIDTH / 2 - shift.x) + ', ' + (window.map.PinMain.offsetTop - shift.y + window.data.MAP_PIN_HEIGHT + PIN_POINT);
+        inputAddress.value = (window.map.PinMain.offsetLeft + window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.PinMain.offsetTop);
       };
       movePin();
     };
@@ -121,7 +121,7 @@
 
     const onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      inputAddress.value = (window.map.PinMain.offsetLeft + window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.PinMain.offsetTop + window.data.MAP_PIN_HEIGHT + PIN_POINT);
+      inputAddress.value = (window.map.PinMain.offsetLeft + window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.PinMain.offsetTop + window.data.MAP_PIN_HEIGHT);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);

@@ -12,7 +12,7 @@
   };
 
   const PriceRange = {
-    LOW: 1000,
+    LOW: 10000,
     HIGH: 50000
   };
   const rooms = filterForm.querySelector('#housing-rooms');
@@ -21,56 +21,64 @@
 
 
   const typeFilter = function (offers) {
-    const filtereds = [];
+    const filtered = [];
     offers.forEach((offer) => {
       if (offer.offer.type === type.value || type.value === TYPE_ANY) {
-        filtereds.push(offer);
+        filtered.push(offer);
       }
     });
 
-    return filtereds;
+    return filtered;
   };
 
   const priceFilter = function (offers) {
-    const filtreds = [];
+    const filtered = [];
     offers.forEach((offer) => {
+      let condition;
+
+
       switch (price.value) {
         case PriceValue.LOW:
-          return offer.offer.price < PriceRange.LOW;
+          condition = offer.offer.price < PriceRange.LOW;
+          break;
         case PriceValue.MIDDLE:
-          return offer.offer.price >= PriceRange.LOW && offer.offer.price <= PriceRange.HIGH;
+          condition = offer.offer.price >= PriceRange.LOW && offer.offer.price <= PriceRange.HIGH;
+          break;
         case PriceValue.HIGH:
-          return offer.offer.price >= PriceRange.HIGH;
+          condition = offer.offer.price >= PriceRange.HIGH;
+          break;
       }
-      filtreds.push(offer);
-      return offer;
+      if (condition) {
+        filtered.push(offer);
+      }
+
     });
-    return filtreds;
+    return filtered;
   };
 
   const roomsFilter = function (offers) {
-    const filtereds = [];
+    const filtered = [];
     offers.forEach((offer) => {
       if (offer.offer.rooms === Number(rooms.value) || rooms.value === TYPE_ANY) {
-        filtereds.push(offer);
+        filtered.push(offer);
       }
     });
-    return filtereds;
+    return filtered;
   };
 
   const guestsFilter = function (offers) {
-    const filtereds = [];
+    const filtered = [];
     offers.forEach((offer) => {
       if (offer.offer.guests === Number(guests.value) || guests.value === TYPE_ANY) {
-        filtereds.push(offer);
+        filtered.push(offer);
       }
     });
-    return filtereds;
+    return filtered;
   };
 
   const featuresFilter = function (offers) {
     const checked = document.querySelectorAll('input:checked');
-    const filtreds = [];
+    const filtered = [];
     const selectedFeatures = [];
 
     checked.forEach((element) => {
@@ -82,19 +90,19 @@
     }
 
     offers.forEach((offer) => {
-      const itemExists = filtreds.find((filteredItem) => offer.offer.address === filteredItem.offer.address);
+      const itemExists = filtered.find((filteredItem) => offer.offer.address === filteredItem.offer.address);
 
       const matches = selectedFeatures.every((featureItem) => {
         return offer.offer.features.includes(featureItem);
       });
 
       if (matches && !itemExists) {
-        filtreds.push(offer);
+        filtered.push(offer);
       }
 
     });
 
-    return filtreds;
+    return filtered;
   };
 
   const updatePins = function () {

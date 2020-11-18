@@ -4,7 +4,7 @@
   const MAP_PIN_WIDTH = 62;
   const MAP_PIN_HEIGHT = 62;
   const MAP_WIDTH = 1200;
-  const MAX_COORDINATE_Y = 630;
+  const MAX_COORDINATE_Y = 692;
   const MIN_COORDINATE_Y = 130;
 
 
