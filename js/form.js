@@ -81,8 +81,8 @@
   priceInput.addEventListener('input', validateMaxPrice);
 
   const validatePrice = function () {
-    priceInput.placeholder = typeInput[typeInput.value];
-    priceInput.setAttribute('min', typeInput[typeInput.value]);
+    priceInput.placeholder = TYPE_PRICE[typeInput.value];
+    priceInput.setAttribute('min', TYPE_PRICE[typeInput.value]);
   };
   const validateMinPrice = function () {
     if (priceInput.value < TYPE_PRICE[typeInput.value]) {
@@ -153,6 +153,7 @@
     window.card.removeInfo();
     titleInput.value = ' ';
     window.map.form.reset();
+    priceInput.placeholder = TYPE_PRICE[typeInput.value];
     window.map.inputAddress.value = (window.map.PinMain.offsetLeft - window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.PinMain.offsetTop + window.data.MAP_PIN_HEIGHT);
 
   };
