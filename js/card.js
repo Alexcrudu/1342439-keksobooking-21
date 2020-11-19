@@ -8,6 +8,13 @@
   const similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   const body = document.querySelector('body');
 
+  const houseType = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalow: 'Бунгало'
+  };
+
   const createCard = function (offer) {
     const fragment = document.createDocumentFragment();
     const cardElement = similarCardTemplate.cloneNode(true);
@@ -15,7 +22,7 @@
     cardElement.querySelector('.popup__title').textContent = offer.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = offer.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = offer.offer.price + ' ₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = offer.offer.type;
+    cardElement.querySelector('.popup__type').textContent = houseType[offer.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ', выезд до ' + offer.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = offer.offer.description;
@@ -74,9 +81,7 @@
 
 
   window.pin.map.addEventListener('keydown', function (evt) {
-    if (evt.target.classList.contains('map__pin--main') || evt.target.closest('.map__pin--main')) {
-      return;
-    } else if (evt.key === window.map.ENTER || evt.target.classList.contains('map__pin') || evt.target.closest('.map__pin')) {
+    if (evt.key === window.map.ENTER && evt.target.classList.contains('map__pin')) {
       const index = evt.target.classList.contains('map__pin') ? evt.target.dataset.index : evt.target.closest('.map__pin').dataset.index;
 
       removeCard();

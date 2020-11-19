@@ -5,24 +5,25 @@
   const map = document.querySelector('.map');
 
   const onSuccess = function (data) {
-    window.data.rawOffers = data;
+    // window.data.rawOffers = data;
     window.data.offers = data;
   };
 
 
   window.backend.load(onSuccess);
 
-  const addPins = function () {
+  const addPins = function (pins) {
     window.map.clearPins();
     const fragment = document.createDocumentFragment();
-    window.data.offers.slice(0, 5).forEach((offer, index) => {
+    pins.slice(0, 5).forEach((offer, index) => {
       const mapElement = similarPinTemplate.cloneNode(true);
+      const mapElementImage = mapElement.querySelector('img');
       mapElement.dataset.index = index;
 
-      mapElement.style.left = offer.location.x - window.data.MAP_PIN_WIDTH / 2 + 'px';
-      mapElement.style.top = offer.location.y - window.data.MAP_PIN_HEIGHT / 2 + 'px';
-      mapElement.querySelector('img').src = offer.author.avatar;
-      mapElement.querySelector('img').alt = offer.offer.title;
+      mapElement.style.left = `${offer.location.x - window.data.MAP_PIN_WIDTH / 2}px`;
+      mapElement.style.top = `${offer.location.y - window.data.MAP_PIN_HEIGHT / 2}px`;
+      mapElementImage.src = offer.author.avatar;
+      mapElementImage.alt = offer.offer.title;
       fragment.appendChild(mapElement);
     });
 

@@ -45,9 +45,9 @@
     const valueLength = titleInput.value.length;
 
     if (valueLength < MIN_TITLE_LENGTH) {
-      titleInput.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
+      titleInput.setCustomValidity(`Ещё ${MIN_TITLE_LENGTH - valueLength} симв.`);
     } else if (valueLength > MAX_TITLE_LENGTH) {
-      titleInput.setCustomValidity('Удалите лишние ' + (valueLength - MAX_TITLE_LENGTH) + ' симв.');
+      titleInput.setCustomValidity(`Удалите лишние ${valueLength - MAX_TITLE_LENGTH} симв.`);
     } else {
       titleInput.setCustomValidity('');
     }
@@ -84,9 +84,10 @@
     priceInput.placeholder = TYPE_PRICE[typeInput.value];
     priceInput.setAttribute('min', TYPE_PRICE[typeInput.value]);
   };
+
   const validateMinPrice = function () {
     if (priceInput.value < TYPE_PRICE[typeInput.value]) {
-      priceInput.setCustomValidity('Минимальная стоимость' + '' + TYPE_PRICE[typeInput.value]);
+      priceInput.setCustomValidity(`Минимальная стоимость ${TYPE_PRICE[typeInput.value]}`);
     }
 
     priceInput.reportValidity();
@@ -149,13 +150,13 @@
   };
 
   const resetForm = () => {
+    window.map.clearPins();
     window.map.disable();
     window.card.removeInfo();
     titleInput.value = ' ';
-    window.map.form.reset();
+    window.filters.form.reset();
     priceInput.placeholder = TYPE_PRICE[typeInput.value];
-    window.map.inputAddress.value = (window.map.PinMain.offsetLeft - window.data.MAP_PIN_WIDTH / 2) + ', ' + (window.map.PinMain.offsetTop + window.data.MAP_PIN_HEIGHT);
-
+    window.map.inputAddress.value = window.map.getMainPinCoordinate();
   };
 
   const submitForm = function (evt) {

@@ -6,9 +6,10 @@
   const type = filterForm.querySelector('#housing-type');
   const price = filterForm.querySelector('#housing-price');
   const PriceValue = {
+    ANY: 'any',
     LOW: 'low',
     MIDDLE: 'middle',
-    High: 'high'
+    HIGH: 'high'
   };
 
   const PriceRange = {
@@ -34,18 +35,22 @@
   const priceFilter = function (offers) {
     const filtered = [];
     offers.forEach((offer) => {
+      const offerPrice = parseInt(offer.offer.price, 10);
       let condition;
 
 
       switch (price.value) {
+        case PriceValue.ANY:
+          condition = true;
+          break;
         case PriceValue.LOW:
-          condition = offer.offer.price < PriceRange.LOW;
+          condition = offerPrice < PriceRange.LOW;
           break;
         case PriceValue.MIDDLE:
-          condition = offer.offer.price >= PriceRange.LOW && offer.offer.price <= PriceRange.HIGH;
+          condition = offerPrice >= PriceRange.LOW && offerPrice <= PriceRange.HIGH;
           break;
         case PriceValue.HIGH:
-          condition = offer.offer.price >= PriceRange.HIGH;
+          condition = offerPrice >= PriceRange.HIGH;
           break;
       }
       if (condition) {
@@ -106,13 +111,14 @@
   };
 
   const updatePins = function () {
-    window.data.offers = typeFilter(window.data.rawOffers);
-    window.data.offers = priceFilter(window.data.offers);
-    window.data.offers = roomsFilter(window.data.offers);
-    window.data.offers = guestsFilter(window.data.offers);
-    window.data.offers = featuresFilter(window.data.offers);
+    let clonedOffers = window.data.offers.slice();
+    clonedOffers = typeFilter(clonedOffers);
+    clonedOffers = priceFilter(clonedOffers);
+    clonedOffers = roomsFilter(clonedOffers);
+    clonedOffers = guestsFilter(clonedOffers);
+    clonedOffers = featuresFilter(clonedOffers);
 
-    window.pin.addPins();
+    window.pin.addPins(clonedOffers);
   };
 
 
@@ -142,4 +148,9 @@
       window.util.debounce(updatePins)();
     });
   });
+
+  window.filters = {
+    form: filterForm,
+  };
+
 })();

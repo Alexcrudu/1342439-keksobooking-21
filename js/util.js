@@ -13,7 +13,7 @@
   };
 
   const getRandomTime = function () {
-    return window.util.getRandomInteger(TIME_MIN, TIME_MAX) + ':00';
+    return `${window.util.getRandomInteger(TIME_MIN, TIME_MAX)} :00`;
   };
 
   const getRandomArrayItem = function (array) {
