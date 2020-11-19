@@ -154,6 +154,7 @@
     window.map.disable();
     window.card.removeInfo();
     titleInput.value = ' ';
+    window.map.form.reset();
     window.filters.form.reset();
     priceInput.value = '';
     priceInput.placeholder = TYPE_PRICE[typeInput.value];
