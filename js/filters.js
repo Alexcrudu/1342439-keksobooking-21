@@ -9,12 +9,12 @@
     ANY: 'any',
     LOW: 'low',
     MIDDLE: 'middle',
-    HIGH: 'high'
+    HIGH: 'high',
   };
 
   const PriceRange = {
     LOW: 10000,
-    HIGH: 50000
+    HIGH: 50000,
   };
   const rooms = filterForm.querySelector('#housing-rooms');
   const guests = filterForm.querySelector('#housing-guests');

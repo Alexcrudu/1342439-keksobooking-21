@@ -9,7 +9,7 @@
 
   const RequestMethod = {
     GET: 'GET',
-    POST: 'POST'
+    POST: 'POST',
   };
 
   const status = {
@@ -54,6 +54,6 @@
 
   window.backend = {
     load,
-    upload
+    upload,
   };
 })();

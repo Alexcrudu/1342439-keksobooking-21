@@ -5,7 +5,6 @@
   const map = document.querySelector('.map');
 
   const onSuccess = function (data) {
-    // window.data.rawOffers = data;
     window.data.offers = data;
   };
 
@@ -15,15 +14,15 @@
   const addPins = function (pins) {
     window.map.clearPins();
     const fragment = document.createDocumentFragment();
-    pins.slice(0, 5).forEach((offer, index) => {
+    pins.slice(0, 5).forEach((pin) => {
       const mapElement = similarPinTemplate.cloneNode(true);
       const mapElementImage = mapElement.querySelector('img');
-      mapElement.dataset.index = index;
+      mapElement.dataset.id = `${pin.location.x}${pin.location.y}`;
 
-      mapElement.style.left = `${offer.location.x - window.data.MAP_PIN_WIDTH / 2}px`;
-      mapElement.style.top = `${offer.location.y - window.data.MAP_PIN_HEIGHT / 2}px`;
-      mapElementImage.src = offer.author.avatar;
-      mapElementImage.alt = offer.offer.title;
+      mapElement.style.left = `${pin.location.x - window.data.MAP_PIN_WIDTH / 2}px`;
+      mapElement.style.top = `${pin.location.y - window.data.MAP_PIN_HEIGHT / 2}px`;
+      mapElementImage.src = pin.author.avatar;
+      mapElementImage.alt = pin.offer.title;
       fragment.appendChild(mapElement);
     });
 
@@ -42,6 +41,6 @@
     map,
     addPins,
     disable: disablePin,
-    onSuccess
+    onSuccess,
   };
 })();

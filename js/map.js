@@ -13,6 +13,7 @@
   const filters = document.querySelector('.map__filters');
   const selects = filters.querySelectorAll('select');
   const features = filters.querySelector('.map__features');
+  let isMapActivated = false;
 
   const clearPins = () => {
     const pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -22,10 +23,11 @@
   };
 
   const getMainPinCoordinate = function () {
-    return (parseInt(mapPinMain.style.left, 10) + window.data.MAP_PIN_WIDTH / 2).toFixed() + ', ' + (parseInt(mapPinMain.style.top, 10) + window.data.MAP_PIN_HEIGHT);
+    return `${(parseInt(mapPinMain.style.left, 10) + window.data.MAP_PIN_WIDTH / 2).toFixed()}, ${(parseInt(mapPinMain.style.top, 10) + window.data.MAP_PIN_HEIGHT)}`;
   };
 
   const disableMap = function () {
+    isMapActivated = false;
     if (!window.pin.map.classList.contains('map--faded')) {
       window.pin.map.classList.add('map--faded');
     }
@@ -41,13 +43,14 @@
     selects.forEach((select) => {
       select.setAttribute('disabled', 'disabled');
     });
-    inputAddress.value = getMainPinCoordinate();
+    inputAddress.value = `${(parseInt(mapPinMain.style.left, 10) + window.data.MAP_PIN_WIDTH / 2).toFixed()}, ${(parseInt(mapPinMain.style.top, 10) + window.data.MAP_PIN_HEIGHT__INACTIV / 2)}`;
     mapPinMain.style.top = `${MAIN_PIN_TOP}px`;
     mapPinMain.style.left = `${MAIN_PIN_LEFT}px`;
   };
   disableMap();
 
   const activeMap = function () {
+    isMapActivated = true;
     window.pin.map.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
     filters.classList.remove('ad-form--disabled');
@@ -66,13 +69,13 @@
 
 
   mapPinMain.addEventListener('mousedown', function (evt) {
-    if (evt.which === LEFT_BUTTON) {
+    if (evt.which === LEFT_BUTTON && !isMapActivated) {
       activeMap();
     }
   });
 
   mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.key === ENTER) {
+    if (evt.key === ENTER && !isMapActivated) {
       activeMap();
     }
   });
@@ -107,7 +110,7 @@
         }
 
         const newY = mapPinMain.offsetTop - shift.y;
-        if (newY >= minCoordinateY && newY < maxCoordinateY) {
+        if (newY >= minCoordinateY && newY <= maxCoordinateY) {
           mapPinMain.style.top = `${newY}px`;
         }
 
@@ -131,6 +134,7 @@
 
   window.map = {
     form,
+    pinMain: mapPinMain,
     ENTER,
     inputAddress,
     headerForm,

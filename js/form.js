@@ -10,13 +10,13 @@
     '1': ['1'],
     '2': ['1', '2'],
     '3': ['1', '2', '3'],
-    '100': ['0']
+    '100': ['0'],
   };
   const TYPE_PRICE = {
     bungalow: 0,
     flat: 1000,
     house: 5000,
-    palace: 10000
+    palace: 10000,
   };
   const roomsNummber = document.querySelector('#room_number');
   const guestsNummber = document.querySelector('#capacity');
@@ -68,7 +68,7 @@
     }
   });
 
-  const validateMaxPrice = function () {
+  const onMaxPriceInput = function () {
     if (priceInput.value > MAX_PRICE) {
       priceInput.setCustomValidity('Слишком большая стоимость');
     } else {
@@ -78,7 +78,7 @@
     priceInput.reportValidity();
   };
 
-  priceInput.addEventListener('input', validateMaxPrice);
+  priceInput.addEventListener('input', onMaxPriceInput);
 
   const validatePrice = function () {
     priceInput.placeholder = TYPE_PRICE[typeInput.value];
@@ -155,17 +155,18 @@
     window.card.removeInfo();
     titleInput.value = ' ';
     window.filters.form.reset();
+    priceInput.value = '';
     priceInput.placeholder = TYPE_PRICE[typeInput.value];
-    window.map.inputAddress.value = window.map.getMainPinCoordinate();
+    window.map.inputAddress.value = `${(parseInt(window.map.pinMain.style.left, 10) + window.data.MAP_PIN_WIDTH / 2).toFixed()}, ${(parseInt(window.map.pinMain.style.top, 10) + window.data.MAP_PIN_HEIGHT__INACTIV / 2)}`;
   };
 
-  const submitForm = function (evt) {
+  const onSubmitForm = function (evt) {
     evt.preventDefault();
     window.backend.upload(showSuccessMessage, showErrorMessage, new FormData(window.map.form));
     resetForm();
   };
 
-  window.map.form.addEventListener('submit', submitForm);
+  window.map.form.addEventListener('submit', onSubmitForm);
 
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();

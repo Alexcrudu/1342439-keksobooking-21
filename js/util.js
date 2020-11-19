@@ -49,7 +49,7 @@
     getRandomTime,
     getRandomArrayItem,
     getRandomFeatures,
-    debounce
+    debounce,
   };
 
 })();

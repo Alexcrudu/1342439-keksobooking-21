@@ -12,7 +12,7 @@
     palace: 'Дворец',
     flat: 'Квартира',
     house: 'Дом',
-    bungalow: 'Бунгало'
+    bungalow: 'Бунгало',
   };
 
   const createCard = function (offer) {
@@ -69,23 +69,33 @@
     }
   };
 
+  const showCard = function (evt) {
+    const id = evt.target.classList.contains('map__pin') ? evt.target.dataset.id : evt.target.closest('.map__pin').dataset.id;
+
+    removeCard();
+
+    for (let i = 0; i <= window.data.offers.length; i++) {
+      const currentOffer = window.data.offers[i];
+      const currentOfferId = `${currentOffer.location.x}${currentOffer.location.y}`;
+      if (id === currentOfferId) {
+        window.card.createInfo(currentOffer);
+        break;
+      }
+    }
+  };
+
   window.pin.map.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('map__pin--main') || evt.target.closest('.map__pin--main')) {
       return;
     } else if (evt.target.classList.contains('map__pin') || evt.target.closest('.map__pin')) {
-      const index = evt.target.classList.contains('map__pin') ? evt.target.dataset.index : evt.target.closest('.map__pin').dataset.index;
-      removeCard();
-      window.card.createInfo(window.data.offers[index]);
+      showCard(evt);
     }
   });
 
 
   window.pin.map.addEventListener('keydown', function (evt) {
-    if (evt.key === window.map.ENTER && evt.target.classList.contains('map__pin')) {
-      const index = evt.target.classList.contains('map__pin') ? evt.target.dataset.index : evt.target.closest('.map__pin').dataset.index;
-
-      removeCard();
-      window.card.createInfo(window.data.offers[index]);
+    if (evt.key === window.map.ENTER && evt.target.classList.contains('map__pin') && !evt.target.classList.contains('map__pin--main')) {
+      showCard(evt);
     }
   });
 
@@ -107,7 +117,7 @@
   window.card = {
     createInfo: createCard,
     removeInfo: removeCard,
-    ESC
+    ESC,
   };
 
 })();

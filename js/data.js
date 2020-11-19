@@ -2,6 +2,7 @@
 
 (function () {
   const MAP_PIN_WIDTH = 65;
+  const MAP_PIN_HEIGHT__INACTIV = 62;
   const MAP_PIN_HEIGHT = 77;
   const MAP_WIDTH_MIN = 0;
   const MAP_WIDTH = 1200;
@@ -16,5 +17,6 @@
     MAP_WIDTH,
     MAX_COORDINATE_Y,
     MIN_COORDINATE_Y,
+    MAP_PIN_HEIGHT__INACTIV,
   };
 })();
